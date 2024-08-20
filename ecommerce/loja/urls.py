@@ -8,6 +8,4 @@ urlpatterns = [
 
     path('', homepage, name="homepage") # chama a funcao que foi criada dentro do views
 
-    
-
 ]
