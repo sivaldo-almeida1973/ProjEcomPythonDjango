@@ -1,3 +1,5 @@
+{% load static %}<!--arquivos dentro de static-->
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -5,11 +7,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ecommerce Reserva</title>
+
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+
 </head>
 
 <body> <!--sera chamado dentro da views, mas tem que informar no settings dentro de templates-->
 
   <nav>Barra de navegacao</nav>
+
 
   {% block body %}
 
