@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import *
 
 # Create your views here. 4º passo
 def homepage(request):
@@ -6,7 +7,9 @@ def homepage(request):
 
 
 def loja(request):
-  return render(request, 'loja.html')
+  produtos = Produto.objects.all() #pega todos os prod da tabela Produtos no bd
+  context = {"produtos": produtos }
+  return render(request, 'loja.html', context) #passa para html o contexto
 
 def carrinho(request):
   return render(request, 'carrinho.html')

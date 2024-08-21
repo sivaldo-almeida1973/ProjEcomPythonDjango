@@ -5,6 +5,18 @@
 
 {% block body %}
 
-<h3>editar o bloco body Loja</h3>
+<h3>Loja</h3>
+
+
+<!--para cada produto dentro da minha lista de produtos-->
+{% for produto in produtos %}
+
+
+<p>Produto: {{ produto.nome }}</p> <!--exibe o produto que esta na tabela Produto-->
+<p>Preço: {{ produto.preco }}</p>
+
+{% endfor %}
+
+
 
 {% endblock %}
