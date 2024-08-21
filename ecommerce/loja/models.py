@@ -17,9 +17,15 @@ class Cliente(models.Model):  #tabela Cliente
 class Categoria(models.Model):
    nome = models.CharField(max_length=200, null=True, blank=True)
 
+   def __str__(self):
+       return str(self.nome) # faz aparecer o nome da categria no bd adm
+
 #(Camisa, Camiseta, Bermuda, Calça...)
 class Tipo(models.Model):
    nome = models.CharField(max_length=200, null=True, blank=True)
+
+   def __str__(self):
+       return str(self.nome) # faz aparecer o nome da categria no bd adm
 
 
 class Produto(models.Model):
