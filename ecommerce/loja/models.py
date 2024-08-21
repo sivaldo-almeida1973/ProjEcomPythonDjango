@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 # bases de dados(tabelas)
 
-class Cliente():  #tabela Cliente
+class Cliente(models.Model):  #tabela Cliente
    nome = models.CharField(max_length=200, null=True, blank=True)
    email = models.CharField(max_length=200, null=True, blank=True)
    telefone = models.CharField(max_length=200, null=True, blank=True)
@@ -14,26 +14,26 @@ class Cliente():  #tabela Cliente
 
 
 #(masculino, feminino, infantil...)
-class Categoria():
+class Categoria(models.Model):
    nome = models.CharField(max_length=200, null=True, blank=True)
 
 #(Camisa, Camiseta, Bermuda, Calça...)
-class Tipo():
+class Tipo(models.Model):
    nome = models.CharField(max_length=200, null=True, blank=True)
 
 
-class Porduto(models.Model):
+class Produto(models.Model):
     imagem = models.CharField(max_length=400, null=True, blank=True)
     nome = models.CharField(max_length=200, null=True, blank=True) 
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     ativo = models.BooleanField(default=True)
     categoria = models.ForeignKey(Categoria, null=True, blank=True, on_delete=models.SET_NULL)
-    tipo = models.ForeignKey(Categoria, null=True, blank=True, on_delete=models.SET_NULL)
+    tipo = models.ForeignKey(Tipo, null=True, blank=True, on_delete=models.SET_NULL)
 
 
 
 class ItemEstoque(models.Model):
-    produto = models.ForeignKey(Porduto, null=True, blank=True, on_delete=models.SET_NULL)
+    produto = models.ForeignKey(Produto, null=True, blank=True, on_delete=models.SET_NULL)
     cor =  models.CharField(max_length=200, null=True, blank=True)
     tamanho =  models.CharField(max_length=200, null=True, blank=True)
     quantidade = models.IntegerField(default=0)
