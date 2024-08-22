@@ -10,8 +10,9 @@ def homepage(request):
     return render(request, 'homepage.html', context)
 
 
-def loja(request):
-  produtos = Produto.objects.filter(ativo=True) # pega todos os prod da tabela Produtos no bd
+def loja(request, nome_categoria=None):
+  print(nome_categoria)
+  produtos = Produto.objects.filter(ativo=True) # pega prod da tabela Produtos no bd
   context = {"produtos": produtos }
   return render(request, 'loja.html', context) #passa para html o contexto
 
