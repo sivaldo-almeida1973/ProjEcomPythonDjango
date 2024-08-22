@@ -6,7 +6,7 @@
 
 {% for banner in banners %}
 {% if banner.imagem %}
-<a href="/{{ banner.link_destino }}">
+<a href="{% url 'loja' %}{{ banner.link_destino }}"> <!--vai concatenar os links-->
   <img src="{{ banner.imagem.url }}" alt="Banner Image">
 </a>
 {% else %}

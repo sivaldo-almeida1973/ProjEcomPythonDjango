@@ -3,16 +3,15 @@ from .models import *
 
 
 def homepage(request):
-    banners = Banner.objects.filter(ativo=True)#so vai aparecer banners ativos
-    for banner in banners:
-        print(banner.imagem)  # Verifique o caminho do arquivo
+    banners = Banner.objects.filter(ativo=True)#aparecer banners ativos
     context = {"banners": banners}
     return render(request, 'homepage.html', context)
 
 
 def loja(request, nome_categoria=None):
-  print(nome_categoria)
-  produtos = Produto.objects.filter(ativo=True) # pega prod da tabela Produtos no bd
+  produtos = Produto.objects.filter(ativo=True) #prod da tabela Prod no bd
+  if nome_categoria: #se tiver nome da categoria
+    produtos = produtos.filter(categoria__nome=nome_categoria)# faz isso
   context = {"produtos": produtos }
   return render(request, 'loja.html', context) #passa para html o contexto
 
