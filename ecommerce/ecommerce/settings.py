@@ -119,11 +119,19 @@ USE_TZ = True
 
 STATIC_URL = 'static/'  #caminho da image
 
-#caminho onde estao os arquivo css, js
+#caminho onde estao os arquivo staticos css, js
 STATICFILES_DIRS = [
-   os.path.join( BASE_DIR / "static")
+   os.path.join( BASE_DIR , "static")
 
 ]
+
+#caminho onde estao guardadas as imagens
+MEDIA_ROOT =  os.path.join( BASE_DIR , "static/images")
+
+MEDIA_URL = "imagens/"
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

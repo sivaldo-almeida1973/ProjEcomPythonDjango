@@ -5,7 +5,7 @@ from .views import *
 
 
 urlpatterns = [
-       # 1 link
+       # 1 link e qual views vai carregar esse link
     path('', homepage, name="homepage") ,#chama a funcao criada dentro views
     path('loja/', loja, name="loja"), #chama a funcao
     path('minhaconta/', minha_conta, name="minha_conta") ,

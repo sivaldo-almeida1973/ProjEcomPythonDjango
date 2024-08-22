@@ -11,6 +11,7 @@
 <!--para cada produto dentro da minha lista de produtos-->
 {% for produto in produtos %}
 
+<img src="{{ produto.imagem.url }}" width="300" height="450">
 
 <p>Produto: {{ produto.nome }}</p> <!--exibe o produto que esta na tabela Produto-->
 <p>Preço: {{ produto.preco }}</p>
