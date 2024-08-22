@@ -12,3 +12,6 @@ admin.site.register(Endereco)
 admin.site.register(Pedido)
 admin.site.register(ItensPedido)
 admin.site.register(Banner)
+admin.site.register(Cor)
+
+#sempre que adicionar aqui, fazer o python manage.py makemigrations,  python manage.py migrate 
