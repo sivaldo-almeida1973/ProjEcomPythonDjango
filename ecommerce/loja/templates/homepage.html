@@ -1,16 +1,17 @@
 {% extends 'base.html' %}
-{% load static %}<!--arquivos dentro de static-->
-
-<!--so vai editar o que esta dentro desse bloco-->
+{% load static %}
 
 {% block body %}
-
 <h3>Homepage</h3>
 
 {% for banner in banners %}
-
-{{ banner }}
-
+{% if banner.imagem %}
+<a href="/{{ banner.link_destino }}">
+  <img src="{{ banner.imagem.url }}" alt="Banner Image">
+</a>
+{% else %}
+<p>Sem imagem disponível</p>
+{% endif %}
 {% endfor %}
 
 {% endblock %}

@@ -71,13 +71,11 @@ class ItensPedido(models.Model):
     quantidade = models.IntegerField(default=0)
     pedido = models.ForeignKey(Pedido, null=True, blank=True, on_delete=models.SET_NULL)
 
-#sempre que criar um modelo(tabela) aqui , vai no admin registra-lo
 class Banner(models.Model):
     imagem = models.ImageField(null=True, blank=True)
     link_destino = models.CharField(max_length=400, null=True, blank=True)
     ativo = models.BooleanField(default=False)
 
-    #definir um funcao str(como vai aparecer o texto no banner)
     def __str__(self) -> str:
         return f"{self.link_destino} = Ativo: {self.ativo}"
 

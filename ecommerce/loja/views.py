@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from .models import *
 
-# Create your views here. 4º passo
+
 def homepage(request):
-  return render(request, 'homepage.html')
+    banners = Banner.objects.all()
+    for banner in banners:
+        print(banner.imagem)  # Verifique o caminho do arquivo
+    context = {"banners": banners}
+    return render(request, 'homepage.html', context)
 
 
 def loja(request):

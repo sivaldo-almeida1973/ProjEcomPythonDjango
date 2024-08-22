@@ -22,10 +22,8 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('loja.urls')) # 2º carrega todos os links
-    
-
+    path('', include('loja.urls')),  # Carrega todos os links
 ]
 
-#gERA LINK DAS IMAGENS   (VEM DO ARQUIVO SETTINGS.PY)
+# Gera link das imagens (vem do arquivo settings.py)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
