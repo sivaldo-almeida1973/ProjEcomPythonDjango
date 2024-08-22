@@ -3,7 +3,7 @@ from .models import *
 
 
 def homepage(request):
-    banners = Banner.objects.all()
+    banners = Banner.objects.filter(ativo=True)#so vai aparecer banners ativos
     for banner in banners:
         print(banner.imagem)  # Verifique o caminho do arquivo
     context = {"banners": banners}
@@ -11,7 +11,7 @@ def homepage(request):
 
 
 def loja(request):
-  produtos = Produto.objects.all() #pega todos os prod da tabela Produtos no bd
+  produtos = Produto.objects.filter(ativo=True) # pega todos os prod da tabela Produtos no bd
   context = {"produtos": produtos }
   return render(request, 'loja.html', context) #passa para html o contexto
 
