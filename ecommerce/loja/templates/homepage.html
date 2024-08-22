@@ -5,6 +5,12 @@
 
 {% block body %}
 
-<h3>editar o bloco body homepage</h3>
+<h3>Homepage</h3>
+
+{% for banner in banners %}
+
+{{ banner }}
+
+{% endfor %}
 
 {% endblock %}
