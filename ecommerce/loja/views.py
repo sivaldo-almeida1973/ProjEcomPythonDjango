@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 
 
@@ -32,8 +32,16 @@ def ver_produto(request, id_produto, id_cor=None):
     if id_cor:
         itens_estoque = ItemEstoque.objects.filter(produto=produto, quantidade__gt=0, cor__id=id_cor)
         tamanhos = {item.tamanho for item in itens_estoque}  #filtra tam. disponivel
-  context = {"produto": produto, "itens_estoque": itens_estoque, "tem_estoque": tem_estoque, "cores": cores, "tamanhos": tamanhos, 'nome_cor_selecionada': nome_cor_selecionada}
+  context = {"produto": produto, "tem_estoque": tem_estoque, "cores": cores, "tamanhos": tamanhos, 'nome_cor_selecionada': nome_cor_selecionada}
   return render(request, 'ver_produto.html', context)
+
+#funcao de adicionar no carrinho
+def adicionar_carrinho(request, id_produto):
+  if request.method == "POST" and id_produto:
+    print('envou formulario', id_produto)
+    return redirect('carrinho')
+  else:
+    return redirect('loja')
 
 
 def carrinho(request):

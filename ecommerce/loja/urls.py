@@ -5,7 +5,7 @@ from .views import *
 
 
 urlpatterns = [
-       # 1 link e qual views vai carregar esse link
+       # link ==funcao == name é a url que vai ser usada no html 
     path('', homepage, name="homepage") ,#chama a funcao criada dentro views
     path('loja/', loja, name="loja"), #chama a funcao  link loja
     path('loja/<str:nome_categoria>/', loja, name="loja"), #link dinamico loja
@@ -15,5 +15,6 @@ urlpatterns = [
     path('login/', login, name="login"), 
     path('carrinho/', carrinho, name="carrinho") ,
     path('checkout/', checkout, name="checkout") ,
+    path('adicionarcarrinho/<int:id_produto>/', adicionar_carrinho, name="adicionar_carrinho"),
 
 ]

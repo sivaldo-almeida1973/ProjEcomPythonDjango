@@ -27,17 +27,24 @@ Cor: {{ nome_cor_selecionada}}
   <i class="fa-solid fa-circle" style="color: {{ cor.codigo }}"></i>
 
 </a>
-{% endfor %}
+{% endfor %} <!--final-->
 
 {% if tamanhos %} <!--inicio do if tam-->
-<p>Selecione um tamanho:</p>
+<!------------------------------------------------------parametro (produto.id)-->
+<form method="post" action="{% url 'adicionar_carrinho' produto.id %}">
+  {% csrf_token %} <!--segurança do form-->
+  <p>Selecione o tamanho:</p>
+  {% for tamanho in tamanhos %}
+  <input type="radio" name="tamanho" value="{{ tamanho }}">
+  <label for="{{ tamanho }}">{{ tamanho }}</label>
 
-{% for tamanho in tamanhos %}
-<button>{{ tamanho }}</button>
-{% endfor %}
+  {% endfor %}
 
+  <button type="submit">Adicionar ao Carrinho</button>
+
+</form>
 {% endif %} <!--fim do if tam-->
-<button>Adicionar ao Carrinho</button>
+
 
 {% else %}
 
