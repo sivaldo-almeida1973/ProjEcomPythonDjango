@@ -7,13 +7,42 @@
 
 <h3>{{ produto.nome }}</h3>
 
-{{ itens_estoque }}
+{% if tem_estoque %} <!--se tem estoque-->
 
 <img src="{{ produto.imagem.url }}" width="300" height="450">
-
 <p>Produto: {{ produto.nome }}</p> <!--exibe o produto que esta na tabela Produto-->
 <p>Preço: {{ produto.preco }}</p>
 
+
+{% if nome_cor_selecionada %}
+
+Cor: {{ nome_cor_selecionada}}
+
+{% endif %}
+
+
+{% for cor in cores %}
+{{ cor.nome }}
+<a href="{% url 'ver_produto' produto.id cor.id %}"> <!--link da cor-->
+  <i class="fa-solid fa-circle" style="color: {{ cor.codigo }}"></i>
+
+</a>
+{% endfor %}
+
+{% if tamanhos %} <!--inicio do if tam-->
+<p>Selecione um tamanho:</p>
+
+{% for tamanho in tamanhos %}
+<button>{{ tamanho }}</button>
+{% endfor %}
+
+{% endif %} <!--fim do if tam-->
 <button>Adicionar ao Carrinho</button>
+
+{% else %}
+
+<p>Produto fora do estoque</p>
+
+{% endif %} <!--fim do if-->
 
 {% endblock %}
