@@ -14,10 +14,8 @@
 <p>Preço: {{ produto.preco }}</p>
 
 
-{% if nome_cor_selecionada %}
-
-Cor: {{ nome_cor_selecionada}}
-
+{% if cor_selecionada %}
+Cor: {{ cor_selecionada.nome }}
 {% endif %}
 
 
@@ -37,9 +35,9 @@ Cor: {{ nome_cor_selecionada}}
   {% for tamanho in tamanhos %}
   <input type="radio" name="tamanho" value="{{ tamanho }}">
   <label for="{{ tamanho }}">{{ tamanho }}</label>
-
   {% endfor %}
 
+  <input type="hidden" name="cor" id="{{ cor_selecionada.id }}">
   <button type="submit">Adicionar ao Carrinho</button>
 
 </form>
