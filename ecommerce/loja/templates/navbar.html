@@ -5,5 +5,7 @@
   <a href="{% url 'login' %}">Login</a>
   <a href="{% url 'minha_conta' %}">Minha Conta</a>
   <a href="{% url 'carrinho' %}">Carrinho</a>
+  <img src="{% static 'images/carrinho.png' %}" alt="carrinho" width="30">
+  {{ quantidade_produtos_carrinho }}
 
 </nav>
