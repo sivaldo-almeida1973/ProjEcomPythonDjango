@@ -5,17 +5,20 @@
 
 {% block body %}
 
-<h3>editar o bloco body Carrinho</h3>
-
+<h3>Carrinho</h3>
 <h4>Número Pedido: {{ pedido.id }}</h4>
+Preço Total Pedido:R$ {{ pedido.preco_total }} <br>
+Total Produtos: {{ pedido.quantidade_total }}
 
 {% for item in itens_pedido %}
 <p>
-  <img src="{{ item.item_estoque.produto.imagem.url }}" alt="imagem" width="50">
-  Produto: {{ item.item_estoque.produto.nome }};
-  Cor: {{ item.item_estoque.cor.nome }};
-  Tamanho {{ item.item_estoque.tamanho }}
-  Quantidade {{ item.quantidade }}
+  <img src="{{ item.item_estoque.produto.imagem.url }}" alt="imagem" width="50"> <br>
+  Produto: {{ item.item_estoque.produto.nome }};<br>
+  Cor: {{ item.item_estoque.cor.nome }};<br>
+  Tamanho {{ item.item_estoque.tamanho }}<br>
+  Quantidade {{ item.quantidade }}<br>
+  Preço Unitario: R${{ item.item_estoque.produto.preco }} <br>
+  Preço Total: R${{ item.preco_total }} <br>
 
 </p>
 {% endfor %}
