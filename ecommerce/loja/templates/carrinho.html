@@ -16,10 +16,30 @@
   Produto: {{ item.item_estoque.produto.nome }}
   Cor: {{ item.item_estoque.cor.nome }}
   Tamanho: {{ item.item_estoque.tamanho }}
-  Quantidade {{ item.quantidade }}
-  Preço Unitário: R${{ item.item_estoque.produto.preco }}
+
+<div style="display: flex">
+  Quantidade: <!--form do button de menos(-)-->
+  <form method="post" action="{% url 'remover_carrinho' item.item_estoque.produto.id %}">
+    {% csrf_token %} <!--segurança do form-->
+    <input type="hidden" name="tamnaho" value=" {{ item.item_estoque.tamanho }}">
+    <input type="hidden" name="cor" value="{{ item.item_estoque.cor.id }}">
+    <button type="submit">-</button> <!--typy='submit' envia o form-->
+  </form>;
+
+  {{ item.quantidade }} <!--form do button de mais(+)-->
+  <form method="post" action="{% url 'adicionar_carrinho' item.item_estoque.produto.id %}">
+    {% csrf_token %} <!--segurança do form-->
+    <input type="hidden" name="tamnaho" value=" {{ item.item_estoque.tamanho }}">
+    <input type="hidden" name="cor" value="{{ item.item_estoque.cor.id }}">
+    <button type="submit">+</button> <!--typy='submit' envia o form-->
+  </form>;
+
+</div>
+Preço Unitário: R${{ item.item_estoque.produto.preco }}
+Total: R${{ item.preco_total }}
 
 </p>
+<hr>
 
 {% endfor %}
 
