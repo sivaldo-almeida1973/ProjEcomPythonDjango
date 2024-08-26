@@ -21,18 +21,18 @@
   Quantidade: <!--form do button de menos(-)-->
   <form method="post" action="{% url 'remover_carrinho' item.item_estoque.produto.id %}">
     {% csrf_token %} <!--segurança do form-->
-    <input type="hidden" name="tamnaho" value=" {{ item.item_estoque.tamanho }}">
+    <input type="hidden" name="tamanho" value="{{ item.item_estoque.tamanho }}">
     <input type="hidden" name="cor" value="{{ item.item_estoque.cor.id }}">
-    <button type="submit">-</button> <!--typy='submit' envia o form-->
-  </form>;
+    <button type="submit">-</button> <!--type='submit' envia o form-->
+  </form>
 
   {{ item.quantidade }} <!--form do button de mais(+)-->
   <form method="post" action="{% url 'adicionar_carrinho' item.item_estoque.produto.id %}">
     {% csrf_token %} <!--segurança do form-->
-    <input type="hidden" name="tamnaho" value=" {{ item.item_estoque.tamanho }}">
+    <input type="hidden" name="tamanho" value="{{ item.item_estoque.tamanho }}">
     <input type="hidden" name="cor" value="{{ item.item_estoque.cor.id }}">
-    <button type="submit">+</button> <!--typy='submit' envia o form-->
-  </form>;
+    <button type="submit">+</button> <!--type='submit' envia o form-->
+  </form>
 
 </div>
 Preço Unitário: R${{ item.item_estoque.produto.preco }}

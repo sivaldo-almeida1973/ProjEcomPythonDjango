@@ -36,30 +36,78 @@ def ver_produto(request, id_produto, id_cor=None):
 
 #funcao de adicionar no carrinho
 def adicionar_carrinho(request, id_produto):
-  if request.method == "POST" and id_produto:
-    dados = request.POST.dict()
-    tamanho = dados.get("tamanho")
-    id_cor = dados.get("cor")
-    if not tamanho: #se nao selecionar o tamho 
-      return redirect('loja')   #redireciona para loja
-    #pegar o cliente
-    if request.user.is_authenticated:
-      cliente = request.user.cliente
+    if request.method == "POST" and id_produto:
+        dados = request.POST.dict()
+        tamanho = dados.get("tamanho")
+        id_cor = dados.get("cor")
+        if not tamanho:  # se nao selecionar o tamanho
+            return redirect('loja')  # redireciona para loja
+        # pegar o cliente
+        if request.user.is_authenticated:
+            cliente = request.user.cliente
+        else:
+            return redirect('loja')
+        pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
+        
+        # Adicionando prints para depuração
+        print(f"Produto ID: {id_produto}, Tamanho: {tamanho}, Cor ID: {id_cor}")
+        
+        try:
+            item_estoque = ItemEstoque.objects.get(produto__id=id_produto, tamanho=tamanho, cor__id=id_cor)
+        except ItemEstoque.DoesNotExist:
+            print("ItemEstoque não encontrado")
+            return redirect('loja')
+        except ItemEstoque.MultipleObjectsReturned:
+            print("Mais de um ItemEstoque encontrado")
+            return redirect('loja')
+        
+        item_pedido, criado = ItensPedido.objects.get_or_create(item_estoque=item_estoque, pedido=pedido)
+        item_pedido.quantidade += 1
+        item_pedido.save()
+        
+        return redirect('carrinho')
     else:
-      return redirect('loja')
-    pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
-    item_estoque = ItemEstoque.objects.get(produto__id=id_produto, tamanho=tamanho, cor__id=id_cor)
-    item_pedido, criado = ItensPedido.objects.get_or_create(item_estoque=item_estoque, pedido=pedido)
-    item_pedido.quantidade += 1
-    item_pedido.save()
-   #criar o pedido ou pegar o pedido que esta em aberto
-    return redirect('carrinho')
-  else:
-    return redirect('loja')
+        return redirect('loja')
 
-
-def remover_carrinho(request):
-  return redirect('carrinho')
+def remover_carrinho(request, id_produto):
+    if request.method == "POST" and id_produto:
+        dados = request.POST.dict()
+        tamanho = dados.get("tamanho")
+        id_cor = dados.get("cor")
+        if not tamanho:  # se nao selecionar o tamanho
+            return redirect('loja')  # redireciona para loja
+        # pegar o cliente
+        if request.user.is_authenticated:
+            cliente = request.user.cliente
+        else:
+            return redirect('loja')
+        pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
+        
+        # Adicionando prints para depuração
+        print(f"Produto ID: {id_produto}, Tamanho: {tamanho}, Cor ID: {id_cor}")
+        
+        try:
+            item_estoque = ItemEstoque.objects.get(produto__id=id_produto, tamanho=tamanho, cor__id=id_cor)
+        except ItemEstoque.DoesNotExist:
+            print("ItemEstoque não encontrado")
+            return redirect('loja')
+        except ItemEstoque.MultipleObjectsReturned:
+            print("Mais de um ItemEstoque encontrado")
+            return redirect('loja')
+        
+        try:
+            item_pedido = ItensPedido.objects.get(item_estoque=item_estoque, pedido=pedido)
+            item_pedido.quantidade -= 1
+            if item_pedido.quantidade <= 0:
+                item_pedido.delete()
+            else:
+                item_pedido.save()
+        except ItensPedido.DoesNotExist:
+            print("ItensPedido não encontrado")
+        
+        return redirect('carrinho')
+    else:
+        return redirect('loja')
 
 def carrinho(request):
   if request.user.is_authenticated:
