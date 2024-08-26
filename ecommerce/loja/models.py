@@ -90,7 +90,7 @@ class Pedido(models.Model):
      
      @property
      def preco_total(self):
-         itens_pedido = ItensPedido.objects.filter(pedido_id=self.id)
+         itens_pedido = ItensPedido.objects.filter(pedido__id=self.id)
          preco = sum([item.preco_total for item in itens_pedido])
          return preco
 
