@@ -53,13 +53,10 @@ def adicionar_carrinho(request, id_produto):
             else:
                id_sessao = str(uuid.uuid4())
                resposta.set_cookie(key="id_sessao", value=id_sessao)
-            cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)
-           
-        pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
-        
+            cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)         
+        pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)      
         # Adicionando prints para depuração
-        print(f"Produto ID: {id_produto}, Tamanho: {tamanho}, Cor ID: {id_cor}")
-        
+        print(f"Produto ID: {id_produto}, Tamanho: {tamanho}, Cor ID: {id_cor}")    
         try:
             item_estoque = ItemEstoque.objects.get(produto__id=id_produto, tamanho=tamanho, cor__id=id_cor)
         except ItemEstoque.DoesNotExist:
@@ -67,8 +64,7 @@ def adicionar_carrinho(request, id_produto):
             return redirect('loja')
         except ItemEstoque.MultipleObjectsReturned:
             print("Mais de um ItemEstoque encontrado")
-            return redirect('loja')
-        
+            return redirect('loja')   
         item_pedido, criado = ItensPedido.objects.get_or_create(item_estoque=item_estoque, pedido=pedido)
         item_pedido.quantidade += 1
         item_pedido.save() 
@@ -117,13 +113,24 @@ def remover_carrinho(request, id_produto):
         return redirect('loja')
 
 def carrinho(request):
-  if request.user.is_authenticated:
-    cliente = request.user.cliente
+  if request.user.is_authenticated:  # Verifica se o usuário está autenticado
+     # Se o cliente estiver autenticado, associa o cliente ao usuário
+    cliente = request.user.cliente 
+  else: #se cliente nao estiver autenticado
+     if request.COOKIES.get("id_sessao"):
+           # Verifica se há um id_sessao nos cookies
+        id_sessao = request.COOKIES.get("id_sessao")
+         # Obtém ou cria um cliente com base no id_sessao
+        cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)
+     else: #caso não tenha o id_sessao associado a ele
+        context = {"cliente_existente": False, "itens_pedido": None, "pedido": None}
+          # Renderiza a página do carrinho com o contexto fornecido
+        return render(request, 'carrinho.html', context)
   pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
   itens_pedido = ItensPedido.objects.filter(pedido=pedido)
   for item in itens_pedido:
     print(item.preco_total)
-  context = {"itens_pedido": itens_pedido, "pedido": pedido}
+  context = {"itens_pedido": itens_pedido, "pedido": pedido, "cliente_existente": True}
   return render(request, 'carrinho.html', context)
 
 
