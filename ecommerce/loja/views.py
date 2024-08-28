@@ -82,13 +82,18 @@ def remover_carrinho(request, id_produto):
         # pegar o cliente
         if request.user.is_authenticated:
             cliente = request.user.cliente
-        else:
-            return redirect('loja')
-        pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
-        
+        else:#se nao logado
+             if request.COOKIES.get("id_sessao"):
+           # Verifica se há um id_sessao nos cookies
+              id_sessao = request.COOKIES.get("id_sessao")
+         # Obtém ou cria um cliente com base no id_sessao
+              cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)
+             else: #caso não tenha o id_sessao associado a ele
+                return redirect('loja')
+        pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)      
         # Adicionando prints para depuração
         print(f"Produto ID: {id_produto}, Tamanho: {tamanho}, Cor ID: {id_cor}")
-        
+       
         try:
             item_estoque = ItemEstoque.objects.get(produto__id=id_produto, tamanho=tamanho, cor__id=id_cor)
         except ItemEstoque.DoesNotExist:
