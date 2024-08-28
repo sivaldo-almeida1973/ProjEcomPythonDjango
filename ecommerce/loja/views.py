@@ -52,8 +52,8 @@ def adicionar_carrinho(request, id_produto):
                id_sessao = request.COOKIES.get("id_sessao")
             else:
                id_sessao = str(uuid.uuid4())
-               resposta.set_cookie(key="id_sessao", value=id_sessao)
-            cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)         
+               resposta.set_cookie(key="id_sessao", value=id_sessao, max_age=60*60*24*30)
+            cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao, )         
         pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)      
         # Adicionando prints para depuração
         print(f"Produto ID: {id_produto}, Tamanho: {tamanho}, Cor ID: {id_cor}")    
