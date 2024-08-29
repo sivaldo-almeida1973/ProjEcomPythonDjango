@@ -139,8 +139,24 @@ def carrinho(request):
   return render(request, 'carrinho.html', context)
 
 
+
 def checkout(request):
-  return render(request, 'checkout.html')
+   if request.user.is_authenticated: #Verif usuár autenticado
+     # Se cliente autenticado, associa o cliente ao usuário
+    cliente = request.user.cliente 
+   else: #se nao estiver autenticado
+     if request.COOKIES.get("id_sessao"):
+           # Verifica se há um id_sessao nos cookies
+        id_sessao = request.COOKIES.get("id_sessao")
+         # Obtém ou cria um cliente com base no id_sessao
+        cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)
+     else: #caso não tenha o id_sessao associado a ele
+        return redirect("loja")
+   pedido, criado = Pedido.objects.get_or_create(cliente=cliente, finalizado=False)
+   enderecos = Endereco.objects.filter(cliente=cliente)
+   context = {"pedido": pedido, "enderecos": enderecos}
+   return render(request, 'checkout.html', context)
+
 
 
 def minha_conta(request):
