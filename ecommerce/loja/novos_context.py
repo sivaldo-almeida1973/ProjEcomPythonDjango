@@ -1,4 +1,4 @@
-from .models import Pedido, ItensPedido, Cliente
+from .models import Pedido, ItensPedido, Cliente, Categoria, Tipo
 
 #logica de adicionar itens no carrinho
 def carrinho(request):
@@ -20,3 +20,8 @@ def carrinho(request):
     quantidade_produtos_carrinho += item.quantidade
   return {"quantidade_produtos_carrinho": quantidade_produtos_carrinho}
 
+
+def categorias_tipos(request):
+   categorias = Categoria.objects.all()
+   tipos = Tipo.objects.all()
+   return {"categorias": categorias, "tipos": tipos}

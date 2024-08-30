@@ -5,7 +5,21 @@
   <a href="{% url 'login' %}">Login</a>
   <a href="{% url 'minha_conta' %}">Minha Conta</a>
   <a href="{% url 'carrinho' %}">Carrinho</a>
-  <img src="{% static 'images/carrinho.png' %}" alt="carrinho" width="30">
+  <img src="{% static 'images/carrinho.png' %}" alt="carrinho" width="30" />
   {{ quantidade_produtos_carrinho }}
 
+  <div style="display: flex;">
+  
+      {% for categoria in categorias %}
+      <div>
+         <a href="{% url 'loja' %} {{ categoria.nome }}">{{ categoria.nome }}:</a><br>
+         
+         {% for tipo in tipos %} 
+           <a href="{% url 'loja' %}  {{ categoria.nome }}- {{ tipo.nome }}">{{ tipo.nome }}</a>
+         {% endfor %}
+    </div>
+    {% endfor %}
+
+    
+  </div>
 </nav>

@@ -10,11 +10,11 @@ def homepage(request):
 
 
 def loja(request, nome_categoria=None):
-  produtos = Produto.objects.filter(ativo=True) #prod da tabela Prod no bd
-  if nome_categoria: #se tiver nome da categoria
-    produtos = produtos.filter(categoria__nome=nome_categoria)# faz isso
+  produtos = Produto.objects.filter(ativo=True) 
+  if nome_categoria: 
+    produtos = produtos.filter(categoria__nome=nome_categoria)
   context = {"produtos": produtos }
-  return render(request, 'loja.html', context) #passa para html o contexto
+  return render(request, 'loja.html', context)
 
 
 def ver_produto(request, id_produto, id_cor=None):
@@ -177,6 +177,7 @@ def adicionar_endereco(request):
                                            numero=int(dados.get("numero")), estado=dados.get("estado"), 
                                            cidade=dados.get("cidade"), 
                                            cep=dados.get("cep"), 
+
                                            complemento=dados.get("complemento"))
         
         endereco.save()  #acabou de adicionar endereco
