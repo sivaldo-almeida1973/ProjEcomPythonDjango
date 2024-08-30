@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import *
 import uuid  #gera id aleatorio
+from .utils import filtra_produtos, preco_minimo_maximo
+
 
 
 def homepage(request):
@@ -9,11 +11,17 @@ def homepage(request):
     return render(request, 'homepage.html', context)
 
 
-def loja(request, nome_categoria=None):
+def loja(request, filtro=None):
   produtos = Produto.objects.filter(ativo=True) 
-  if nome_categoria: 
-    produtos = produtos.filter(categoria__slug=nome_categoria)
-  context = {"produtos": produtos }
+  produtos = filtra_produtos(produtos, filtro)
+  #preco minimo e maximo
+
+  #variavel tamanho
+  tamanhos = ["P","M","G"]
+
+  minimo, maximo =  preco_minimo_maximo(produtos)
+
+  context = {"produtos": produtos, "minimo": minimo, "maximo": maximo, "tamanhos": tamanhos }
   return render(request, 'loja.html', context)
 
 

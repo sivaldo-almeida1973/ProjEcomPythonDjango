@@ -9,7 +9,8 @@
 
 {% if tem_estoque %} <!--se tem estoque-->
 
-<img src="{{ produto.imagem.url }}" width="300" height="450">
+<img src="{{ produto.imagem.url }}" width="300" height="450" alt="{{ produto.nome }}">
+
 <p>Produto: {{ produto.nome }}</p> <!--exibe o produto que esta na tabela Produto-->
 <p>Preço: {{ produto.preco }}</p>
 
@@ -21,9 +22,8 @@ Cor: {{ cor_selecionada.nome }}
 
 {% for cor in cores %}
 {{ cor.nome }}
-<a href="{% url 'ver_produto' produto.id cor.id %}"> <!--link da cor-->
-  <i class="fa-solid fa-circle" style="color: {{ cor.codigo }}"></i>
-
+<a href="{% url 'ver_produto' produto.id cor.id %}">
+  <i class="fa-solid fa-circle" style="color: {{ cor.codigo }}" alt="Cor: {{ cor.nome }}"></i>
 </a>
 {% endfor %} <!--final-->
 

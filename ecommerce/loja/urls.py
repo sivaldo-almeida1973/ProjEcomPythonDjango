@@ -8,7 +8,7 @@ urlpatterns = [
        # link ==funcao == name é a url que vai ser usada no html 
     path('', homepage, name="homepage") ,#chama a funcao criada dentro views
     path('loja/', loja, name="loja"), #chama a funcao  link loja
-    path('loja/<str:nome_categoria>/', loja, name="loja"), #link dinamico loja
+    path('loja/<str:filtro>/', loja, name="loja"), #link dinamico loja
     path('produto/<int:id_produto>/', ver_produto, name="ver_produto"),
     path('produto/<int:id_produto>/<int:id_cor>/', ver_produto, name="ver_produto"),
     path('minhaconta/', minha_conta, name="minha_conta") ,
