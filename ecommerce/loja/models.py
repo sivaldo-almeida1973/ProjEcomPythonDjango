@@ -46,7 +46,6 @@ class Produto(models.Model):
 class Cor(models.Model):
     nome = models.CharField(max_length=200, null=True, blank=True) 
     codigo = models.CharField(max_length=200, null=True, blank=True) 
-
     def __str__(self):
         return str(self.nome)
 

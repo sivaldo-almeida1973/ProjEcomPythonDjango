@@ -17,11 +17,14 @@ def loja(request, filtro=None):
   #preco minimo e maximo
 
   #variavel tamanho
-  tamanhos = ["P","M","G"]
-
+  itens = ItemEstoque.objects.filter(quantidade__gt=0, produto__in=produtos)
+  tamanhos = itens.values_list("tamanho", flat=True).distinct()
+  ids_cores = itens.values_list("cor", flat=True).distinct()
+  cores = Cor.objects.filter(id__in=ids_cores)
+  print(cores)
+ 
   minimo, maximo =  preco_minimo_maximo(produtos)
-
-  context = {"produtos": produtos, "minimo": minimo, "maximo": maximo, "tamanhos": tamanhos }
+  context = {"produtos": produtos, "minimo": minimo, "maximo": maximo, "tamanhos": tamanhos, "cores": cores }
   return render(request, 'loja.html', context)
 
 
