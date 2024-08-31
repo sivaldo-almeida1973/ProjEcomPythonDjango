@@ -24,10 +24,35 @@
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon" />
   </head>
 
-  <body style="background-color: rgb(209, 202, 202)">
+  <body style="background-color: rgb(209, 202, 202); margin: 10px;">
     <!--sera chamado dentro da views, mas tem que informar no settings dentro de templates-->
 
-    {% include 'navbar.html' %} {% block body %} {% endblock %}
+    {% include 'navbar.html' %} 
+    {% block body %}
+    
+    
+    {% endblock %}
+
+    
+    {% block scripts %}
+    <!-- Seus scripts aqui -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.color-filter').forEach(function(element) {
+            element.addEventListener('click', function() {
+                var selectedColor = this.getAttribute('data-color');
+                document.querySelectorAll('.product').forEach(function(product) {
+                    if (product.getAttribute('data-color') === selectedColor) {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+    </script>
+    {% endblock %}
 
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
