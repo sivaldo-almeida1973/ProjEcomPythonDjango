@@ -7,6 +7,7 @@
 
 <h3>Loja</h3>
 <form method="post" action="">
+  {% csrf_token %}
   <p>Preço</p>
   <input type="number" name="preco_minimo" value="{{ minimo }}">
   <input type="number" name="preco_maximo" value="{{ maximo }}">
@@ -16,16 +17,6 @@
   <input type="radio" name="tamanho" value="{{ tamanho }}">
   <label for="{{ tamanho }}">{{ tamanho }}</label>
   {% endfor %}
-
-  <p>Cores</p>
-  <div style="display: flex; flex-wrap: wrap;" id="color-filters">
-   {% for cor in cores %}
-     <div style="margin-right: 10px;">
-       <span style="background-color: {{ cor.codigo }}; width: 20px; height: 20px; display: inline-block;" class="color-filter" data-color="{{ cor.codigo }}"></span>
-       <label for="{{ cor.id }}">{{ cor.nome }}</label>
-     </div>
-   {% endfor %}
-  </div>
 
   <p>Categorias</p>
   {% for categoria in categorias %}

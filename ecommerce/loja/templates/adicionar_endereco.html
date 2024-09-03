@@ -9,6 +9,7 @@
 <a href="{% url 'checkout' %}">Retornar para a compra</a>
 
 <h3>Adicione um novo endereço</h3>
+
 <form method="post" action="{% url 'adicionar_endereco' %}">
   {% csrf_token %}
   <input type="text" name="cidade" placeholder="Cidade" />
