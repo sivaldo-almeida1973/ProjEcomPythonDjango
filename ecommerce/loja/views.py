@@ -22,9 +22,15 @@ def loja(request, filtro=None):
           itens = ItemEstoque.objects.filter(produto__in=produtos, tamanho=dados.get("tamanho"))
           ids_produtos = itens.values_list("produto", flat=True).distinct()
           produtos = produtos.filter(id__in=ids_produtos)
-         
+       if "tipo" in dados:
+          produtos = produtos.filter(tipo__slug=dados.get("tipo"))
+       if "categoria" in dados:
+          produtos = produtos.filter(categoria__slug=dados.get("categoria"))
+           
     itens = ItemEstoque.objects.filter(quantidade__gt=0, produto__in=produtos)
     tamanhos = itens.values_list("tamanho", flat=True).distinct()
+    ids_categorias = produtos.values_list("categoria", flat=True).distinct()
+    categorias = Categoria.objects.filter(id__in=ids_categorias)
     ids_cores = itens.values_list("cor", flat=True).distinct()
     cores = Cor.objects.filter(id__in=ids_cores)
     
@@ -34,7 +40,8 @@ def loja(request, filtro=None):
         "minimo": minimo,
         "maximo": maximo,
         "tamanhos": tamanhos,
-        "cores": cores
+        "cores": cores,
+        "categorias": categorias
     }
     return render(request, 'loja.html', context)
 

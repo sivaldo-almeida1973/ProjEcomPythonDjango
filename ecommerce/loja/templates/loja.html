@@ -25,7 +25,7 @@
   {% endfor %}
 
   <p>Tipo</p>   
-  {% for tipo in tipos %} 
+  {% for tipo in tipos_navegacao %} 
   <input type="radio" name="tipo" value="{{ tipo.slug }}">
   <label for="{{ tipo.slug }}">{{ tipo.nome }}</label>
   {% endfor %}
