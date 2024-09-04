@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 import uuid  #gera id aleatorio
-from .utils import filtra_produtos, preco_minimo_maximo
+from .utils import filtra_produtos, preco_minimo_maximo, ordenar_produtos
 
 
 
@@ -33,8 +33,13 @@ def loja(request, filtro=None):
     categorias = Categoria.objects.filter(id__in=ids_categorias)
     ids_cores = itens.values_list("cor", flat=True).distinct()
     cores = Cor.objects.filter(id__in=ids_cores)
-    
     minimo, maximo = preco_minimo_maximo(produtos)
+
+     #caso não encotre o parametro ordem, uso como parametro menor-preco
+    ordem = request.GET.get("ordem", "menor-preco")
+    #produtos vai ser a minha funcao ordenar_produtos (utils.py)
+    produtos = ordenar_produtos(produtos, ordem)
+
     context = {
         "produtos": produtos,
         "minimo": minimo,
