@@ -41,6 +41,12 @@ class Produto(models.Model):
 
     def __str__(self) -> str:
         return f'Nome:{self.nome}, Categoria: {self.categoria}, Tipo: {self.tipo}, Preço: {self.preco}'
+    
+
+    def total_vendas(self):
+        itens = ItensPedido.objects.filter(pedido__finalizado=True, item_estoque__produto=self.id)
+        total = sum([item.quantidade for item in itens])
+        return total
 
 #sempre que criar uma tabela aqui(registrar no admin)
 class Cor(models.Model):
