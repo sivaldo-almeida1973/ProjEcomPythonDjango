@@ -2,24 +2,31 @@
 <nav>
   <a href="{% url 'homepage' %}">Reserva</a>
   <a href=" {% url 'loja' %}">Loja</a>
-  <a href="{% url 'login' %}">Login</a>
-  <a href="{% url 'minha_conta' %}">Minha Conta</a>
+
+  <div style="display: flex;"> <!--visualizacao de produtos-->
+  
+    {% for categoria in categorias_navegacao %}
+    <div>
+       <a href="{% url 'loja' %}{{ categoria.slug }}">{{ categoria.nome }}:</a><br>
+       
+       {% for tipo in tipos_navegacao %} 
+         <a href="{% url 'loja' %}{{ categoria.slug }}-{{ tipo.slug }}">{{ tipo.nome }}</a>
+       {% endfor %}
+  </div>
+  {% endfor %}
+ 
+</div>
+
+   <!--direita da navbar-->
+  {% if request.user.is_authenticated %}
+    <a href="{% url 'minha_conta' %}">Minha Conta</a>
+  {% else %}
+   <a href="{% url 'login' %}">Login</a>
+  {% endif %}
+  
   <a href="{% url 'carrinho' %}">Carrinho</a>
   <img src="{% static 'images/carrinho.png' %}" alt="carrinho" width="30" />
   {{ quantidade_produtos_carrinho }}
 
-  <div style="display: flex;">
-  
-      {% for categoria in categorias_navegacao %}
-      <div>
-         <a href="{% url 'loja' %}{{ categoria.slug }}">{{ categoria.nome }}:</a><br>
-         
-         {% for tipo in tipos_navegacao %} 
-           <a href="{% url 'loja' %}{{ categoria.slug }}-{{ tipo.slug }}">{{ tipo.nome }}</a>
-         {% endfor %}
-    </div>
-    {% endfor %}
-
-    
-  </div>
+ 
 </nav>

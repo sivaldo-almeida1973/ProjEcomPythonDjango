@@ -9,7 +9,7 @@
 
 <div style="display: flex;">
 
-    <form method="post" action="" style="border: 1px solid red;">
+    <form method="post" action="" >
       {% csrf_token %}
       <p>Preço</p>
       <input type="number" name="preco_minimo" value="{{ minimo }}">
@@ -37,7 +37,7 @@
     </form>
 
 
-    <div style="border: 1px solid; margin: 10px; padding: 10px;">
+    <div>
         Ordenar Por:
        <ul>   <!--pegar o name com parametro para o js-->
           <li><a href="#" class="item-ordenar" name="menor-preco">Menor Preço</a></li>

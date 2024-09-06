@@ -228,5 +228,8 @@ def minha_conta(request):
 def login(request):
   return render(request, 'usuario/login.html')
 
+def criar_conta(request):
+  return render(request, 'usuario/criar_conta.html')
+
 
 # TODO sempre que o usuario criar uma conta no nossso site, iremos criar uma cliente para ele.
