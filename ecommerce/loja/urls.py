@@ -18,8 +18,9 @@ urlpatterns = [
     path('adicionarendereco/', adicionar_endereco, name="adicionar_endereco"),
 
     path('minhaconta/', minha_conta, name="minha_conta") ,
-    path('login/', fazer_login, name="fazer_login"), 
+    path('fazerlogin/', fazer_login, name="fazer_login"), 
     path('criarconta/', criar_conta, name="criar_conta"), 
+    path('fazerlogout/', fazer_logout, name="fazer_logout"), 
 
 ]
 

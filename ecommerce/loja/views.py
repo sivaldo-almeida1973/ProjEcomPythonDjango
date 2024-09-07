@@ -292,12 +292,18 @@ def criar_conta(request):
               cliente.save()
               return redirect("loja")
         else:
-           erro = "semhas_diferente"
+           erro = "senhas_diferentes"
       else:
         erro = "preenchimento"
+  context = {"erro": erro}
+  return render(request, 'usuario/criar_conta.html', context)
 
-  
-  return render(request, 'usuario/criar_conta.html')
+
+def fazer_logout(request):
+   logout(request)
+   return redirect("fazer_login")
+   
+   
+   
 
 
-# TODO sempre que o usuario criar uma conta no nossso site, iremos criar uma cliente para ele.

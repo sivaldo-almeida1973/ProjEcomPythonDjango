@@ -6,6 +6,25 @@
 
 <h3>Preencha seus dados para criar uma conta</h3>
 
+{% if erro == "preenchimento" %}
+  <p>Preencha todas as informações dos formularios corretamente para criar uma conta</p>
+{% endif %}
+
+
+{% if erro == "email_invalido" %}
+  <p>Seu e-mail está inválido, tente novamente com outro e-mail/p>
+{% endif %}
+
+
+{% if erro == "usuario_existente" %}
+  <p>Já existe um usuario com este e-mail, <a href="{% url 'fazer_login' %}">faça login</a></p>
+{% endif %}
+
+
+{% if erro == "senhas_diferentes" %}
+  <p>Senha e confirmação de senha não são iguais, tente novamente!</p>
+{% endif %}
+
 <form method="post" action="{% url 'criar_conta' %}" >
   {% csrf_token %}
      <input type="email" name="email" placeholder="Email">
