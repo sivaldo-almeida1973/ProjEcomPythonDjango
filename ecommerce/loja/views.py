@@ -3,6 +3,9 @@ from .models import *
 import uuid  #gera id aleatorio
 from .utils import filtra_produtos, preco_minimo_maximo, ordenar_produtos
 from django.contrib.auth import login, logout, authenticate
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
 
 
 def homepage(request):
@@ -251,8 +254,50 @@ def fazer_login(request):
 
 
 def criar_conta(request):
+  erro = None
+  if request.user.is_authenticated:
+     return redirect("loja")
+  if request.method == 'POST':
+      dados = request.POST.dict()
+      if "email" in dados and "senha" in dados and "confirmacao_senha" in dados:
+       #criar conta
+        email = dados.get("email")
+        senha = dados.get("senha")
+        confirmacao_senha = dados.get("confirmacao_senha")
+        try:
+           validate_email(email)
+        except ValidationError:
+           erro = "email_inválido"
+        if senha == confirmacao_senha:
+           #criar conta
+           usuario, criado = User.objects.get_or_create(username=email, email=email)
+           if not criado:
+              erro = "usuario_existente"
+           else:
+              usuario.set_password(senha)
+              usuario.save()
+               #fazer login do usuario
+              usuario = authenticate(request, username=email, password=senha)
+              login(request, usuario)
+              #verificar se existe o id_sessao nos cookies
+              if request.COOKIES.get("id_sessao"):
+                 # Verifica se há um id_sessao nos cookies
+                 id_sessao = request.COOKIES.get("id_sessao")
+                 # Obtém ou cria um cliente com base no id_sessao
+                 cliente, criado = Cliente.objects.get_or_create(id_sessao=id_sessao)
+              else:
+                 cliente, criado = Cliente.objects.get_or_create(email=email)
+              cliente.usuario = usuario
+              cliente.email = email       
+              cliente.save()
+              return redirect("loja")
+        else:
+           erro = "semhas_diferente"
+      else:
+        erro = "preenchimento"
+
+  
   return render(request, 'usuario/criar_conta.html')
 
 
 # TODO sempre que o usuario criar uma conta no nossso site, iremos criar uma cliente para ele.
-# TODO sempre que criar um usuario colocar o username dele igual ao email

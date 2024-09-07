@@ -6,7 +6,7 @@
 
 <h3>Preencha seus dados para criar uma conta</h3>
 
-<form method="post" action="" >
+<form method="post" action="{% url 'criar_conta' %}" >
   {% csrf_token %}
      <input type="email" name="email" placeholder="Email">
      <input type="password" name="senha" placeholder="Senha">
