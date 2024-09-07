@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 import uuid  #gera id aleatorio
 from .utils import filtra_produtos, preco_minimo_maximo, ordenar_produtos
-
+from django.contrib.auth import login, logout, authenticate
 
 
 def homepage(request):
@@ -225,11 +225,34 @@ def minha_conta(request):
   return render(request, 'usuario/minha_conta.html')
 
 
-def login(request):
-  return render(request, 'usuario/login.html')
+def fazer_login(request):
+  erro = False
+  #se usuario estiver autenticado
+  if request.user.is_authenticated:
+     #redireciona para loja
+     return redirect('loja')
+  #se nao estiver logado
+  if request.method == 'POST':
+     dados = request.POST.dict()#pega os dados que estao vindo do form
+     if "email" in dados and "senha" in dados:
+        email = dados.get("email")
+        senha = dados.get("senha")
+        usuario = authenticate(request, username=email, password=senha)
+        #fazer login se encontrar usuario
+        if usuario:
+            login(request, usuario)
+            return redirect('loja')
+        else: #caso nao encontre o usuario
+            erro = True
+     else:
+        erro = True
+  context = {"erro": erro}
+  return render(request, 'usuario/login.html', context) #carrega tela login
+
 
 def criar_conta(request):
   return render(request, 'usuario/criar_conta.html')
 
 
 # TODO sempre que o usuario criar uma conta no nossso site, iremos criar uma cliente para ele.
+# TODO sempre que criar um usuario colocar o username dele igual ao email

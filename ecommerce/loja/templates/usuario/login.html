@@ -6,7 +6,12 @@
 
 <h3>Faça seu Login</h3>
 
-<form action="post" action="" >
+{% if erro %}
+ <h4>Erro de credencial, tente novamente ou crie uma conta</h4>
+
+{% endif %}
+
+<form method="POST" action="{% url 'fazer_login' %}" >
   {% csrf_token %}
      <input type="email" name="email" placeholder="Email">
      <input type="password" name="senha" placeholder="Senha">

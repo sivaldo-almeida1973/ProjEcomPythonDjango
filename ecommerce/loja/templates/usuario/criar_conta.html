@@ -6,7 +6,7 @@
 
 <h3>Preencha seus dados para criar uma conta</h3>
 
-<form action="post" action="" >
+<form method="post" action="" >
   {% csrf_token %}
      <input type="email" name="email" placeholder="Email">
      <input type="password" name="senha" placeholder="Senha">
@@ -15,5 +15,5 @@
 
 </form>
 
-<a href="{% url 'login' %}">Já tem uma conta? Fazer Login!</a>
+<a href="{% url 'fazer_login' %}">Já tem uma conta? Fazer Login!</a>
 {% endblock %}
