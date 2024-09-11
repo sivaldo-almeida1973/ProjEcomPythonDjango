@@ -3,6 +3,7 @@ from .models import *
 import uuid  #gera id aleatorio
 from .utils import filtra_produtos, preco_minimo_maximo, ordenar_produtos
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 
@@ -222,8 +223,9 @@ def adicionar_endereco(request):
     else:
         context = {}
         return render(request, "adicionar_endereco.html", context)
-   
 
+
+@login_required  #so acessa que estiver logado
 def minha_conta(request):
   return render(request, 'usuario/minha_conta.html')
 
@@ -298,7 +300,7 @@ def criar_conta(request):
   context = {"erro": erro}
   return render(request, 'usuario/criar_conta.html', context)
 
-
+@login_required  #so acessa que estiver logado
 def fazer_logout(request):
    logout(request)
    return redirect("fazer_login")
