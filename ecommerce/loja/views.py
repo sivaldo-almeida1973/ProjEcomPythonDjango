@@ -227,7 +227,55 @@ def adicionar_endereco(request):
 
 @login_required  #so acessa que estiver logado
 def minha_conta(request):
-  return render(request, 'usuario/minha_conta.html')
+  erro = None
+  alterado = False
+  if request.method == 'POST':
+     dados = request.POST.dict()
+     print(dados)
+     if "senha_atual" in dados:
+        #alteracao de senha
+        senha_atual = dados.get("senha_atual")
+        nova_senha = dados.get("nova_senha")
+        nova_senha_confirmacao = dados.get("nova_senha_confirmacao")
+        if nova_senha == nova_senha_confirmacao:  #verificar se a senha atual esta certa
+          #autentica usuario
+           usuario = authenticate(request, username=request.user.email, password=senha_atual)
+           if usuario: #se usuario existir
+              #senha correta
+              usuario.set_password(nova_senha)
+              usuario.save()
+              alterado = True
+           else:
+              erro = "senha_incorreta"
+        else:
+           erro = "senhas_diferentes"
+           #alterar email
+     elif "email" in dados:
+        email = dados.get("email")
+        telefone = dados.get("telefone")
+        nome = dados.get("nome")   
+        #se ele ta tentado modificar o email dele
+        if email != request.user.email:
+           #vou procurar se tem algum usuario com email == ao novo email dele 
+           usuarios = User.objects.filter(email=email)
+           if len(usuarios) > 0:
+              erro = "email_existente"
+        if not erro: #se nao deu erro
+           #confirmar modificar email
+           cliente = request.user.cliente
+           cliente.email = email
+           request.user.email = email
+           request.user.email = email
+           cliente.nome = nome
+           cliente.telefone = telefone
+           cliente.save()
+           request.user.save()
+           alterado = True
+
+     else:
+        erro = "formulario_invalido"
+  context = {"erro": erro, "alterado": alterado}
+  return render(request, 'usuario/minha_conta.html', context)
 
 
 @login_required  #so acessa que estiver logado
