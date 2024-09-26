@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from datetime import datetime
+from .apy_mercadopago import criar_pagamento
 
 
 
@@ -203,15 +204,19 @@ def finalizar_pedido(request, id_pedido):
       dados = request.POST.dict()
 
       total = dados.get("total")
+      total = float(total.replace(",", "."))
       pedido = Pedido.objects.get(id=id_pedido)
 
-      if total != pedido.preco_total:
+      print(total, pedido.preco_total)
+      if total != float( pedido.preco_total):
          erro = "preco"
+
       #verificar se ta vindo um endereco
       if not "endereco" in dados:
          erro = "endereco"
       else:
-         endereco = dados.get("endereco")
+         id_endereco = dados.get("endereco")
+         endereco = Endereco.objects.get(id=id_endereco)
          pedido.endereco = endereco
 
       if not request.user.is_authenticated:
@@ -235,8 +240,10 @@ def finalizar_pedido(request, id_pedido):
          context = {"erro": erro, "pedido": pedido, "enderecos": enderecos}
          return render(request, "checkout.html", context)
       else:
-         # Todo pagamento do usuario
-         return redirect("checkout")
+         itens_pedido = ItensPedido.objects.filter(pedido=pedido)
+         link = ""
+         criar_pagamento(itens_pedido, link)
+         return redirect("checkout", erro)
    else:
       return redirect("loja")
 
