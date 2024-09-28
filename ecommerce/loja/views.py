@@ -241,9 +241,12 @@ def finalizar_pedido(request, id_pedido):
          return render(request, "checkout.html", context)
       else:
          itens_pedido = ItensPedido.objects.filter(pedido=pedido)
-         link = ""
-         criar_pagamento(itens_pedido, link)
-         return redirect("checkout", erro)
+         link = "https://webhook.site/00f71179-ec4b-48a3-a700-55b91cd5e4a9"
+         link_pagamento, id_pagamento =  criar_pagamento(itens_pedido, link)
+         #criar nova tabela no models.py(apos isso criar pagamento aqui)
+         pagamento = Pagamento.objects.create(id_pagamento=id_pagamento, pedido=pedido)
+         pagamento.save()
+         return redirect(link_pagamento)
    else:
       return redirect("loja")
 

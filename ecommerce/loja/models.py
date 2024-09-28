@@ -129,6 +129,11 @@ class Banner(models.Model):
     def __str__(self) -> str:
         return f"{self.link_destino} = Ativo: {self.ativo}"
 
+#criar tabela aqui e depois( registrar no admin)
+class Pagamento(models.Model):
+    id_pagamento = models.CharField(max_length=400)
+    pedido = models.ForeignKey(Pedido, null=True, blank=True, on_delete=models.SET_NULL)
+    aprovado = models.BooleanField(default=False)
 
 
 
